@@ -8,7 +8,7 @@ Using Google's Search API, we feed it with keywords and phrases and pick the top
 #### Run gSearch.py
 
 ```
-$ cd Google-Search_API
+$ cd Google-Search-API
 
 $ python gSearch.py
 ```
