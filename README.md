@@ -1,4 +1,4 @@
-# Domain Relevancy URL scraping using Polar domain keywords 
+# Domain Relevant Data Collection using Google Search API 
 
 #### Objective
 
