@@ -30,20 +30,19 @@ def extractKeys():
     keywords.extend(itertools.product(k1, k4))
 
     print("Number of Search Terms:" + str(len(keywords)))
-    pprint.pprint(keywords)
+    #pprint.pprint(keywords)
     return keywords
 
 
 def extractURLs():
     num_page = 1  # how many pages to consider while searching Google - each pages about 10 urls
-    urlDict = dict()
+    urlDict = {}
     keywords = extractKeys()
+    
     for terms in keywords:
         print(terms)
         # define the keywords order
         search_results = google.search(terms[0] + " " + terms[1], num_page)
-
-        # search_results = google.search(terms, num_page)
         i = 1
         for result in search_results:
             # to check if the link exists [ omit 404 errors ] 
@@ -51,28 +50,37 @@ def extractURLs():
                 a = urllib.request.urlopen(result.link)
                 if a.getcode()==200:
                     print(result.link)
+                    '''
+                    Keys are URLs
+                    Values are of the form [x,Y] 
+                        x = total number of times this URL has been hit
+                        Y = list of URL google page ranks (the rank given by Google for each URL)
+                    eg: 
+                    {
+                        "URL": [2, [4,2]]
+                    }
+                    '''
                     if result.link in urlDict.keys():
-                        urlDict[result.link][0] += 1
-                        urlDict[result.link][1].append(i)
+                        urlDict[str(result.link)][0] += 1
+                        urlDict[str(result.link)][1].append(i)
                     else:
-                        urlDict[result.link] = [1, [i]]
+                        urlDict[str(result.link)] = [1, [i]]
                     i += 1
-                    #print(result.link)
+                    
             except:
                 print("********LINK ERROR [", result.link,"]********")
-
-    urlDict = sorted(urlDict.items(), key=operator.itemgetter(1), reverse=True)
-
+    # sorting dict based on values
+    urlDict = dict(sorted(urlDict.items(), key=operator.itemgetter(1), reverse=False))
     print("Total number of unique URLs:" + str(len(urlDict)))
     
-    with open('top-urls1.json', 'w') as fp:
-        json.dump(urlDict, fp)
-
-    topURLlist = open('topURLlist1.txt', 'w')
+    with open('top-urls2.json', 'w') as fp:
+        json.dump(urlDict, fp, indent=4)
+  
+    topURLlist = open('topURLlist2.txt', 'w')
     for urls in urlDict:
         topURLlist.write(urls[0]+'\n')
     topURLlist.close()
 
-
+    
 if __name__ == "__main__":
     extractURLs()
