@@ -10,6 +10,7 @@ Using Google's Search API, we feed it with keywords and phrases and pick the top
 ``` $ pip install git+https://github.com/abenassi/Google-Search-API/```
 
 #### Run gSearch.py
+After installing the API, clone this repository and use the terminal to run the following commands insite the directory.
 
 ```
 $ cd Google-Search-API
